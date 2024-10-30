@@ -1,0 +1,70 @@
+version: "3.3"
+services:
+  app:
+    build:
+      args:
+        user: renatopereira
+        uid: 1000
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    image: php8.2
+    container_name: sendmails-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/docker-compose/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    networks:
+      - dev
+
+  nginx:
+    image: nginx:alpine
+    container_name: sendmails-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www
+      - ./docker/docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - dev
+    links:
+      - app
+
+  db:
+    container_name: sendmails-db
+    image: mysql:8.0
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: sendmails_db
+    ports:
+      - "3366:3306"
+    networks:
+      - dev
+
+  # New phpmyadmin service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sendmails-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "9000:80"  # You can change this port if needed
+    environment:
+      PMA_HOST: db  # Connects to the "db" service (MySQL)
+      PMA_USER: root  # Adjust username if different in your MySQL setup
+      PMA_PASSWORD: 123456  # Adjust password if different in your MySQL setup
+    volumes:
+      - phpmyadmin-storage:/var/lib/phpmyadmin  # Persistent storage for phpmyadmin data
+    networks:
+      - dev
+
+networks:
+  dev:
+    driver: bridge
+
+# New volume for phpmyadmin data persistence
+volumes:
+  phpmyadmin-storage:

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lancamento', function (Blueprint $table) {
+        Schema::create('campanha', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('negocio_id');
             $table->foreign('negocio_id')->references('id')->on('negocio');
             $table->string('versao');
             $table->date('dt_inicio_cap_lead');
-            $table->dateTime('dt_inicio_lancamento');
-            $table->dateTime('dt_termino_lancamento');
+            $table->dateTime('dt_inicio_campanha');
+            $table->dateTime('dt_termino_campanha');
             $table->integer('meta_captura_leads');
             $table->integer('meta_leads_na_live');
             $table->string('status');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lancamento');
+        Schema::dropIfExists('campanha');
     }
 };

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('disparo_email_tag', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lancamento_id');
+            $table->unsignedBigInteger('campanha_id');
             $table->string('tag');
             $table->string('assunto');
             $table->string('mensagem');
             $table->dateTime('data_disparo')->text('Não obrigatório, mas se preenchido, será disparado email nesa data para todos com a Tag definida');
             $table->integer('tempo_disparo')->text('Disparar e-mail após o tempo configurado (Ex: 1s ou 4h ou 2d). Se o campo data_disparo for preenchido, este campo será NULL.'); 
             $table->integer('repetir')->text('Repetir o tempo de disparo por quantas vezes? Se o campo data_disparo for preenchido, este campo será NULL.');
-            $table->foreign('lancamento_id')->references('id')->on('lancamento');
+            $table->foreign('campanha_id')->references('id')->on('campanha');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome_template');
             $table->string('assunto');
-            $table->string('descricao');
+            $table->text('descricao');
             $table->timestamps();
             $table->softDeletes('deleted_at');
         });

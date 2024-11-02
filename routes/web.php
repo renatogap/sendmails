@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CampanhaController;
 use App\Http\Controllers\ClienteController;
 use App\Mail\SendMailLead;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +23,16 @@ Route::get('/', function () {
         'nome' => 'ALINE FONSE PEREIRA',
         'email' => 'aline.fonseca01@gmail.com'
     ];
-    Mail::to('renato.19gp@gmail.com')->send( new SendMailLead($dados));
+
+    $data = Carbon::now();
+
+    dd($data->addHour(5));
+
+    Mail::to(env('MAIL_FROM_ADDRESS'))->send( new SendMailLead($dados));
     return view('welcome');
 });
+
+Route::get('/inscricao/store', [CampanhaController::class, 'storeInscricaoLead']);
 
 Route::get('/cliente', [ClienteController::class, 'index']);
 Route::get('/cliente/cadastro', [ClienteController::class, 'cadastro']);

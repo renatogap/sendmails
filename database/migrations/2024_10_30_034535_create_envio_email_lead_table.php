@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('envio_email_lead', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lead_id');
+            $table->unsignedBigInteger('gatilho_email_tag_id');
             $table->string('tag');
-            $table->unsignedBigInteger('disparo_email_tag_id');
             $table->dateTime('data_envio');
-            $table->foreign('disparo_email_tag_id')->references('id')->on('disparo_email_tag');
+            $table->boolean('enviado')->default(false);
+            $table->foreign('gatilho_email_tag_id')->references('id')->on('gatilho_email_tag');
             $table->foreign('lead_id')->references('id')->on('lead');
             $table->timestamps();
         });

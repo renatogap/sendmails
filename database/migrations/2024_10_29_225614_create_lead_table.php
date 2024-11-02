@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('campanha_id');
             $table->foreign('campanha_id')->references('id')->on('campanha');
-            $table->string('nome');
+            $table->string('nome')->nullable();
             $table->string('email');
-            $table->string('telefone');
+            $table->string('telefone')->nullable();
+            $table->boolean('concordo_termos')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

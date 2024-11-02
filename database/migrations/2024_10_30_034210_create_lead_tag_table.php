@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lead_tag', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lead_id');
-            $table->string('tag');
+            $table->string('tag', 100);
             $table->foreign('lead_id')->references('id')->on('lead');
             $table->timestamps();
         });

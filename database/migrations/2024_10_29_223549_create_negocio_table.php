@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('negocio', function (Blueprint $table) {
             $table->id();
-            $table->string('name_metodo');
+            $table->string('nome_metodo');
             $table->string('nicho');
             $table->string('subnicho');
             $table->string('roma');

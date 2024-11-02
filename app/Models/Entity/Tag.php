@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entity;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Tag extends Model
 {
     use HasFactory;
 
-    protected $table = "cliente";
+    protected $table = "tag";
 }

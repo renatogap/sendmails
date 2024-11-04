@@ -52,20 +52,6 @@ class EnvioEmailLeadRegras
             }
         }    
     }
-
-    // public static function enviarEmailGrupoWhatsapp(GatilhoEmailTag $gatilho)
-    // {
-    //     try {
-    //         Mail::to(env('MAIL_FROM_ADDRESS'))->send( new ObrigadoMail($gatilho));
-    //     }
-    //     catch(Exception $ex) {
-    //         if(env('APP_DEBUG')) {
-    //             throw new Exception('Erro ao enviar o e-mail ao Lead. '.$ex->getMessage());
-    //         }else {
-    //             throw new Exception('Erro ao enviar o e-mail o Lead.');
-    //         }
-    //     }    
-    // }
     
     public static function salvar($lead_id, $tag, $gatilho_id, Carbon $dtEnvio, $enviado = false)
     {

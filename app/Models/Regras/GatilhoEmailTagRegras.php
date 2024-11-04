@@ -11,6 +11,12 @@ use Exception;
 
 class GatilhoEmailTagRegras
 {
+    /**
+     * Essa função verifica se há gatilhos para a tag informada. Caso positivo, ela verifica qual o tipo de disparo
+     * de e-mail (IMEDIATAMENTE, DATA_EXATA ou TEMPO), faz o calculo para obter a data exata em que o e-mail deve
+     * ser enviado e grava na tabela EnvioEmailLead, para deixar preparado para a classe de EnvioEmail disparar os
+     * e-mails se a data_envio concomitar com a data corrente.
+     */
     public static function disparar($campanha, Tag $tag, LeadTag $leadTag)
     {
         try {
@@ -25,33 +31,19 @@ class GatilhoEmailTagRegras
             foreach($gatilhos as $gatilho) {
 
                 if($gatilho->tipo_disparo == 'IMEDIATAMENTE') {
-
-                    //EnvioEmailLeadRegras::enviarEmailObrigado($gatilho); // enviar o e-mail
-                    
                     EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $data); // salvar o envio de e-mail
                 } 
-
                 else if($gatilho->tipo_disparo == 'DATA') {
-
                     $dataEnvioEmail = Carbon::parse($gatilho->data_disparo);
 
-                    // salvar o agendamento do envio em uma data específica
                     EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $dataEnvioEmail);
                 }
-                
                 else {
                     $dataEnvioEmail = Carbon::parse($leadTag->created_at);
                     $dataEnvioEmail = $dataEnvioEmail->addHour($gatilho->tempo_disparo);
 
                     EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $dataEnvioEmail); // salvar o envio de e-mail
-                    
                 }
-
-                // se a data ou o período configurado estiver concomitante com a data atual, então disparar o e-mails
-                // if($data->greaterThanOrEqualTo($dataEnvioEmail)) {
-                //     EnvioEmailLeadRegras::enviarEmailObrigado($gatilho);
-                // }
-
             }
 
         }

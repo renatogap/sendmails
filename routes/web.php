@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\CampanhaController;
 use App\Http\Controllers\ClienteController;
-use App\Mail\SendMailLead;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\MailMarketin\GatilhoEmailController;
+use App\Http\Controllers\MailMarketin\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,23 +18,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $dados = (object) [
-        'nome' => 'ALINE FONSE PEREIRA',
-        'email' => 'aline.fonseca01@gmail.com'
-    ];
-
-    $data = Carbon::now();
-
-    dd($data->addHour(5));
-
-    Mail::to(env('MAIL_FROM_ADDRESS'))->send( new SendMailLead($dados));
     return view('welcome');
 });
 
-Route::get('/inscricao/store', [CampanhaController::class, 'storeInscricaoLead']);
 
-Route::get('/cliente', [ClienteController::class, 'index']);
-Route::get('/cliente/cadastro', [ClienteController::class, 'cadastro']);
-Route::post('/cliente/salvar', [ClienteController::class, 'salvar']);
-Route::get('/cliente/edicao/{id}', [ClienteController::class, 'edicao']);
-Route::post('/cliente/alterar', [ClienteController::class, 'alterar']);
+Route::get('gatilhos', [GatilhoEmailController::class, 'index']);
+Route::get('gatilho/create', [GatilhoEmailController::class, 'create']);
+Route::get('gatilho/edit/{id}', [GatilhoEmailController::class, 'edit']);
+Route::post('gatilho', [GatilhoEmailController::class, 'store']);
+Route::put('gatilho', [GatilhoEmailController::class, 'update']);
+
+Route::get('tags', [TagController::class, 'index']);
+Route::get('tag/create', [TagController::class, 'create']);
+Route::get('tag/edit/{id}', [TagController::class, 'edit']);
+Route::post('tag', [TagController::class, 'store']);
+Route::put('tag', [TagController::class, 'update']);
+
+Route::get('campanhas', [CampanhaController::class, 'index']);
+
+
+Route::get('/inscricao/store', [CampanhaController::class, 'storeInscricaoLead']);

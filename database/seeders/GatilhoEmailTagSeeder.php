@@ -93,7 +93,7 @@ class GatilhoEmailTagSeeder extends Seeder
                 'campanha_id' => 1,
                 'tag' => 'PROG10X_LS_#1',
                 'assunto' => 'Tudo o que você precisa para acessar o evento',
-                'mensagem' => '<p>Fala Dev</p>,
+                'mensagem' => '<p>Fala Dev,</p>
                         <p>
                             Aqui é o Renato Pereira, eu vi que ontem você se inscreveu para participar do <strong>Programador 10x</strong> e que a sua inscrição já foi confirmada! 
                         </p>

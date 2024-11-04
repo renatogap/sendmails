@@ -8,11 +8,16 @@ use App\Models\Regras\EnvioEmailLeadRegras;
 use App\Models\Regras\GatilhoEmailTagRegras;
 use App\Models\Regras\LeadRegras;
 use App\Models\Regras\LeadTagRegras;
+use App\Models\Repository\CampanhaRepository;
 use Exception;
 use Illuminate\Http\Request;
 
 class CampanhaController extends Controller
 {
+    public function index()
+    {
+        return CampanhaRepository::getAll();
+    }
 
     public function storeInscricaoLead(Request $request)
     {

@@ -46,4 +46,30 @@ class GatilhoEmailController extends Controller
             ], 500);
         }
     }
+
+    public function edit(GatilhoEmailTag $gatilho)
+    {
+        return view('mail-marketing.gatilho.edit', compact('gatilho'));
+    }
+
+    public function update(GatilhoRequest $request, GatilhoEmailTag $gatilho)
+    {
+        $dadosForm = (object) $request->validated();
+
+        try {
+            
+            // Usa o método salvar para criar o registro
+            $gatilho = GatilhoEmailTagRegras::alterar($dadosForm, $gatilho);
+
+            return response()->json([
+                'message' => 'Gatilho de e-mail alterado com sucesso!',
+                'data' => $gatilho
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Erro ao tentar alerar o gatilho de e-mail.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

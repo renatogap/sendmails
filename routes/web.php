@@ -25,9 +25,9 @@ Route::get('/', function () {
 
 Route::get('gatilhos', [GatilhoEmailController::class, 'index']);
 Route::get('gatilho/create', [GatilhoEmailController::class, 'create']);
-Route::get('gatilho/edit/{id}', [GatilhoEmailController::class, 'edit']);
+Route::get('gatilho/edit/{gatilho}', [GatilhoEmailController::class, 'edit']);
 Route::post('gatilho', [GatilhoEmailController::class, 'store']);
-Route::put('gatilho', [GatilhoEmailController::class, 'update']);
+Route::put('gatilho/{gatilho}', [GatilhoEmailController::class, 'update']);
 Route::get('gatilhos/search', [GatilhoEmailController::class, 'search']);
 
 Route::get('tags', [TagController::class, 'index']);

@@ -22,11 +22,12 @@ class GatilhoRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'required|exists:gatilho_email_tag,id',
             'campanha' => 'required',
             'tag' => 'required',
             'tipoGatilho' => 'required',
-            'data' => 'required_if:tipoGatilho,DATA|date',
-            'tempoEnvio' => 'required_unless:tipoGatilho,IMEDIATAMENTE,DATA|integer',
+            'dataGatilho' => 'required_if:tipoGatilho,DATA',
+            'tempoGatilho' => 'required_unless:tipoGatilho,IMEDIATAMENTE,DATA|integer',
             'assunto' => 'required|string',
             'mensagem' => 'required|string',
         ];
@@ -35,13 +36,15 @@ class GatilhoRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'id.required' => 'O id do gatilho não foi informado.',
+            'id.exists' => 'Esse id de identificação do gatilho não é válido.',
             'campanha.required' => 'O campo campanha é obrigatório.',
             'tag.required' => 'O campo tag é obrigatório.',
             'tipoGatilho.required' => 'O campo tipo de gatilho é obrigatório.',
-            'data.required_if' => 'O campo data é obrigatório quando o tipo de gatilho é "DATA".',
-            'data.date' => 'O campo data deve ser uma data válida.',
-            'tempoEnvio.required_unless' => 'O campo tempo de envio é obrigatório quando o tipo de gatilho não é "IMEDIATAMENTE" nem "DATA".',
-            'tempoEnvio.integer' => 'O campo tempo de envio deve ser um número inteiro.',
+            'dataGatilho.required_if' => 'O campo data é obrigatório quando o tipo de gatilho é "DATA".',
+            'dataGatilho.date' => 'O campo data deve ser uma data válida.',
+            'tempoGatilho.required_unless' => 'O campo tempo de envio é obrigatório quando o tipo de gatilho não é "IMEDIATAMENTE" nem "DATA".',
+            'tempoGatilho.integer' => 'O campo tempo de envio deve ser um número inteiro.',
             'assunto.required' => 'O campo Assunto é obrigatório.',
             'mensagem.required' => 'O campo Mensagem é obrigatório.',
         ];

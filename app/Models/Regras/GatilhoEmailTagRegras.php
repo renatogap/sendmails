@@ -24,6 +24,20 @@ class GatilhoEmailTagRegras
         ]);
     }
 
+    public static function alterar(Object $dados, GatilhoEmailTag $gatilho)
+    {
+        return $gatilho->update([
+            'campanha_id' => $dados->campanha,
+            'tag' => $dados->tag,
+            'tipo_disparo' => $dados->tipoGatilho,
+            'data_disparo' => $dados->dataGatilho ?? null,
+            'tempo_disparo' => $dados->tempoGatilho ?? null,
+            'repetir' => $dados->repetir ?? null,
+            'assunto' => $dados->assunto,
+            'mensagem' => $dados->mensagem,
+        ]);
+    }
+
 
 
 

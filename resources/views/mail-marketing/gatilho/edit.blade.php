@@ -8,42 +8,47 @@
 <div id="app">
     <div class="card mt-3">
         <div class="card-body">
-            <h3 class="card-title">Novo Gatilho</h3>
-            <span class="subtitulo">Configure um gatilho para disparar um e-mail</span>
+            <h3 class="card-title">Editar Gatilho</h3>
+            <span class="subtitulo">Altere as configurações do gatilho para o envio de e-mail</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
+                    @method('PUT')
                     @csrf
 
-                    <div class="mb-3">
-                        <label for="campanhaInput" class="form-label">Campanha</label>
-                        <select 
-                            v-model="form.campanha"
-                            class="form-select form-select-lg"
-                            id="campanhaInput"
-                            required
-                        >
-                            <option value="">SELECIONE...</option>
-                            <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.nome}} @{{campanha.versao}}</option>
-                        </select>
+                    <div class="row">
+
+                        <div class="col-md-8 mb-3">
+                            <label for="campanhaInput" class="form-label">Campanha</label>
+                            <select 
+                                v-model="form.campanha"
+                                class="form-select"
+                                id="campanhaInput"
+                                required
+                            >
+                                <option value="">SELECIONE...</option>
+                                <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.nome}} @{{campanha.versao}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="tagInput" class="form-label">Tag</label>
+                            <select 
+                                v-model="form.tag"
+                                class="form-select" 
+                                id="tagInput"
+                                required
+                            >
+                                <option value="">SELECIONE...</option>
+                                <option v-for="tag in tags" :value="tag.tag">@{{tag.tag}}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="tagInput" class="form-label">Tag</label>
-                        <select 
-                            v-model="form.tag"
-                            class="form-select form-select-lg" 
-                            id="tagInput"
-                            required
-                        >
-                            <option value="">SELECIONE...</option>
-                            <option v-for="tag in tags" :value="tag.tag">@{{tag.tag}}</option>
-                        </select>
-                    </div>
+
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="tipoGatilhoInput" class="form-label">Tipo de gatilho</label>
                             <select 
                                 v-model="form.tipoGatilho"
-                                class="form-select form-select-lg" 
+                                class="form-select" 
                                 id="tipoGatilhoInput" 
                                 @change="mudancaDoTipoDeGatilho"
                                 required
@@ -57,7 +62,7 @@
                             <input 
                                 v-model="form.dataGatilho"
                                 type="date" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="dataGatilhoInput"
                             />
                         </div>
@@ -67,7 +72,7 @@
                             <input 
                                 v-model="form.tempoGatilho"
                                 type="number" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="tempoGatilhoInput"
                             />
                         </div>
@@ -77,7 +82,7 @@
                             <input
                                 v-model="form.repetir"
                                 type="number" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="repetirInput"
                             />
                         </div>
@@ -88,7 +93,7 @@
                         <input
                             v-model="form.assunto"
                             type="text" 
-                            class="form-control form-control-lg" 
+                            class="form-control" 
                             id="assuntoInput"
                             required
                         />
@@ -98,7 +103,7 @@
                         <label for="mensagem" class="form-label">Mensagem</label>
                         <textarea
                             v-model="form.mensagem"
-                            class="form-control form-control-lg" 
+                            class="form-control" 
                             id="mensagem"
                             placeholder="Escreva aqui a mensagem do e-mail..."
                             required
@@ -136,7 +141,7 @@
         selector: '#mensagem', // Seleciona o textarea
         plugins: 'lists link image preview',
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | link image | bullist numlist',
-        height: 300,
+        height: 400,
         setup: function(editor) {
             editor.on('change', function() {
                 editor.save(); // Salva a edição do conteúdo
@@ -152,14 +157,15 @@
         setup() {
 
             const form = ref({
-                campanha: '',
-                tag: '',
-                tipoGatilho: 'IMEDIATAMENTE',
-                tempoGatilho: '',
-                dataGatilho: '',
-                repetir: '',
-                assunto: '',
-                mensagem: ''
+                id: '{{ $gatilho->id }}',
+                campanha: '{{ $gatilho->campanha_id }}',
+                tag: '{{ $gatilho->tag }}',
+                tipoGatilho: '{{ $gatilho->tipo_disparo }}',
+                tempoGatilho: '{{ $gatilho->tempo_disparo }}',
+                dataGatilho: '{{ $gatilho->data_disparo }}',
+                repetir: '{{ $gatilho->repetir }}',
+                assunto: '{{ $gatilho->assunto }}',
+                mensagem: `{!! $gatilho->mensagem !!}`,
             });
 
             const campanhas  = ref('')
@@ -204,17 +210,6 @@
                 }
             }
 
-            // const limparFormulario = () => {
-            //     form.value.campanha = ''
-            //     form.value.tag = ''
-            //     form.value.tipoGatilho = 'IMEDIATAMENTE'
-            //     form.value.tempoGatilho = ''
-            //     form.value.dataGatilho = ''
-            //     form.value.repetir = ''
-            //     form.value.assunto = ''
-            //     form.value.mensagem = ''
-            // }
-
             const getEditorContent = () => {
                 return quill.root.innerHTML; // Captura o conteúdo do editor
             }
@@ -227,11 +222,10 @@
 
                 form.value.mensagem = tinymce.get('mensagem').getContent() // Captura o conteúdo do editor
 
-                axios.post(`${baseUrl}/gatilho`, form.value)
+                axios.put(`${baseUrl}/gatilho/${form.value.id}`, form.value)
                     .then(response => {
                         messageSuccess.value = response.data.message
-
-                        // limparFormulario()
+                        console.log(response.data)
                     })
                     .catch(error => {
                         if (error.response) {

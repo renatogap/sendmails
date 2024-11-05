@@ -1,5 +1,15 @@
 @extends('layouts.default')
 @section('content')
+<style>
+    .card {
+        cursor: pointer;
+        transition: border-left 1s;
+    }
+    .card:hover {
+        border-left: 25px solid orangered;
+        transition: border-left 1s;
+    }
+</style>
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
     <div class="col">
         <a href="negocios" class="card">

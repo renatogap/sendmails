@@ -16,7 +16,9 @@ class CampanhaController extends Controller
 {
     public function index()
     {
-        return CampanhaRepository::getAll();
+        $campanhas = CampanhaRepository::getAll();
+
+        return response()->json($campanhas);
     }
 
     public function storeInscricaoLead(Request $request)

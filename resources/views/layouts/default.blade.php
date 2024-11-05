@@ -7,14 +7,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>SendMails</title>
     <style>
-        .card:hover {
+        label {
+            font-weight: bold;
+        }
+        .card {
+            text-decoration: none;
             background-color: #eee;
-            cursor: pointer;
             border-left: 8px solid orangered;
         }
 
-        .card {
-            text-decoration: none;
+        .subtitulo {
+            color: gray;
+            font-size: 13px;
+        }
+
+        .botao {
+            background-color: orangered; 
+            color: white;
+        }
+
+        .botao:hover {
+            background-color: darkorange; 
+            color: white;
         }
     </style>
 </head>

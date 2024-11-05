@@ -20,6 +20,7 @@ class CampanhaSeeder extends Seeder
             [
                 'id' => 1,
                 'negocio_id' => 1,
+                'nome' => '[LANCAMENTO][SEMENTE]',
                 'versao' => '#1',
                 'dt_inicio_cap_lead' => '2024-11-07',
                 'dt_inicio_campanha' => '2024-11-01 04:02:55',

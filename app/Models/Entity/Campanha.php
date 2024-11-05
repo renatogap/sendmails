@@ -17,8 +17,11 @@ class Campanha extends Model
 
     public function negocio(): HasOne
     {
-        return $this->HasOne(Negocio::class, 'negocio_id', 'id');
+        return $this->HasOne(Negocio::class);
     }
 
-
+    public function gatilhos()
+    {
+        return $this->hasMany(GatilhoEmailTag::class);
+    }
 }

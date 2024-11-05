@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('campanha', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('negocio_id');
-            $table->foreign('negocio_id')->references('id')->on('negocio');
+            $table->string('nome');
             $table->string('versao');
             $table->date('dt_inicio_cap_lead');
             $table->dateTime('dt_inicio_campanha');
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('status');
             $table->timestamps();
             $table->softDeletes('deleted_at');
+            $table->foreign('negocio_id')->references('id')->on('negocio');
         });
     }
 

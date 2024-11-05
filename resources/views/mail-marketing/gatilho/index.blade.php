@@ -1,71 +1,84 @@
 @extends('layouts.default')
 @section('content')
+<style>
+    .table {
+        border-radius: 5px !important;
+    }
+    .botao-acao {
+        color: orangered;
+    }
+</style>
 <div id="app">
-    <h3>Campanhas</h3>
-    <form action="">
-        <div class="mb-3">
-            <label for="campanhaInput" class="form-label">Campanha</label>
-            <select class="form-select" id="campanhaInput">
-                <option value="">Selecione...</option>
-                <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.versao}}</option>
-            </select>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h3 class="card-title">Gatilhos de envio</h3>
+            <span class="subtitulo">Lista de gatilhos para envio de e-mails registrados</span>
+            <div class="card-text mt-4">
+                <table class="table table-bordered table-responsive table-hover" width="100%">
+                    <tr>
+                        <th>CAMPANHAS</th>
+                        <th>ASSUNTO</th>
+                        <th>TIPO GATILHO</th>
+                        <th>TEMPO DE<br />ENVIO</th>
+                        <th>DATA DO<br />ENVIO</th>
+                        <th>AÇÕES</th>
+                    </tr>
+                    <tr v-for="gatilho in gatilhos">
+                        <td>
+                            <strong>@{{ gatilho.campanha.nome }}</strong>
+                            <div style="font-size: 13px; color: gray;">
+                                <strong>Tag:</strong> @{{ gatilho.tag }}
+                            </div>
+                        </td>
+                        <td>@{{ gatilho.assunto }}</td>
+                        <td class="text-center">@{{ gatilho.tipo_disparo }}</td>
+                        <td class="text-center">@{{ gatilho.tempo_disparo }}</td>
+                        <td class="text-center">@{{ gatilho.data_disparo }}</td>
+                        <td>
+                            <a href="#" class="botao-acao m-3">
+                                <i class="bi bi-pencil-square" style="font-size: 20px;"></i> 
+                            </a>
+                            <a href="#" class="botao-acao">
+                                <i class="bi bi-trash3-fill" style="font-size: 20px;"></i>
+                            <a href="#">
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="tagInput" class="form-label">Tag</label>
-            <select class="form-select" id="tagInput">
-                <option value="">Selecione...</option>
-                <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.versao}}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="tipoGatilhoInput" class="form-label">Tipo de gatilho</label>
-            <select class="form-select" id="tipoGatilhoInput">
-                <option value="">Selecione...</option>
-                <option value="IMEDIATAMENTE">IMEDIATAMENTE</option>
-                <option value="DATA">DATA</option>
-                <option value="SEMANA(S)">SEMANA(S)</option>
-                <option value="HORA(S)">HORA(S)</option>
-                <option value="MINUTO(S)">MINUTO(S)</option>
-                <option value="SEGUNDO(S)">SEGUNDO(S)</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="tempoGatilhoInput" class="form-label">Tempo gatilho</label>
-            <input type="text" class="form-control" id="tempoGatilhoInput">
-        </div>
-        <div class="mb-3">
-            <label for="dataGatilhoInput" class="form-label">Data gatilho</label>
-            <input type="date" class="form-control" id="dataGatilhoInput">
-        </div>
-        <div class="mb-3">
-            <label for="repetirInput" class="form-label">Repetir</label>
-            <input type="date" class="form-control" id="repetirInput">
-        </div>
-    </form>
+    </div>
+    
 </div>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+
     const { createApp, ref, onMounted } = Vue
+    const baseUrl = '<?= config('app.url') ?>'
 
     createApp({
         setup() {
 
-            const campanhas  = ref('')
+            const gatilhos  = ref('')
 
-            const getCampanhas = () => {
-                campanhas.value = axios.get('<?= config('app.url') ?>/campanhas');
+            const getGatilhos = () => {
+                axios.get(`${baseUrl}/gatilhos/search`)
+                .then(response => {
+                    gatilhos.value = response.data
+                });
             }
+
+
+            
 
             // Executa ao montar o componente
             onMounted(() => {
-                getCampanhas();
+                getGatilhos();
             })
 
 
             return {
-                campanhas,
-                getCampanhas
+                gatilhos
             }
         }
     }).mount('#app')

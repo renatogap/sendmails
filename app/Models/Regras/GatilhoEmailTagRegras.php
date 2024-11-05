@@ -2,7 +2,6 @@
 
 namespace App\Models\Regras;
 
-use App\Models\Entity\EnvioEmailLead;
 use App\Models\Entity\GatilhoEmailTag;
 use App\Models\Entity\LeadTag;
 use App\Models\Entity\Tag;
@@ -11,6 +10,23 @@ use Exception;
 
 class GatilhoEmailTagRegras
 {
+    public static function salvar($dados)
+    {
+        return GatilhoEmailTag::create([
+            'campanha_id' => $dados->campanha,
+            'tag' => $dados->tag,
+            'tipo_disparo' => $dados->tipoGatilho,
+            'data_disparo' => $dados->dataGatilho ?? null,
+            'tempo_disparo' => $dados->tempoGatilho ?? null,
+            'repetir' => $dados->repetir ?? null,
+            'assunto' => $dados->assunto,
+            'mensagem' => $dados->mensagem,
+        ]);
+    }
+
+
+
+
     /**
      * Essa função verifica se há gatilhos para a tag informada. Caso positivo, ela verifica qual o tipo de disparo
      * de e-mail (IMEDIATAMENTE, DATA_EXATA ou TEMPO), faz o calculo para obter a data exata em que o e-mail deve

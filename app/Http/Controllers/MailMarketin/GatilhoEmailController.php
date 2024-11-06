@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GatilhoRequest;
 use App\Models\Entity\GatilhoEmailTag;
 use App\Models\Regras\GatilhoEmailTagRegras;
+use App\Models\Repository\CampanhaRepository;
+use App\Models\Repository\TagRepository;
+use App\Models\Repository\TipoGatilhoRepository;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -14,6 +17,15 @@ class GatilhoEmailController extends Controller
     public function index()
     {
         return view('mail-marketing.gatilho.index');
+    }
+
+    public function info()
+    {
+        return response()->json([
+            'campanhas' => CampanhaRepository::getAll(),
+            'tags' => TagRepository::getAll(),
+            'tiposGatilho' => TipoGatilhoRepository::getAll()
+        ]);
     }
 
     public function search()
@@ -36,12 +48,12 @@ class GatilhoEmailController extends Controller
             $gatilho = GatilhoEmailTagRegras::salvar((object) $dadosValidados);
 
             return response()->json([
-                'message' => 'Gatilho de e-mail salvo com sucesso!',
-                'data' => $gatilho
+                'message' => 'Gatilho de e-mail registrado com sucesso!',
+                'gatilho' => $gatilho
             ], 201);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao salvar o gatilho de e-mail.',
+                'message' => 'Erro ao tentar registrar o gatilho de e-mail.',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -63,7 +75,7 @@ class GatilhoEmailController extends Controller
 
             return response()->json([
                 'message' => 'Gatilho de e-mail alterado com sucesso!',
-                'data' => $gatilho
+                'gatilho' => $gatilho
             ], 201);
         } catch (Exception $e) {
             return response()->json([

@@ -16,18 +16,18 @@ class CampanhaRepository
         return Campanha::find($id);
     }
 
-    public function create(array $data)
+    public static function create(array $data)
     {
         return Campanha::create($data);
     }
 
-    public function update($id, array $data)
+    public static function update($id, array $data)
     {
         $campanha = Campanha::find($id);
         return $campanha ? $campanha->update($data) : null;
     }
 
-    public function delete($id)
+    public static function delete($id)
     {
         $campanha = Campanha::find($id);
         return $campanha ? $campanha->delete() : null;

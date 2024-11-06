@@ -8,7 +8,15 @@
 <div id="app">
     <div class="card mt-3">
         <div class="card-body">
-            <h3 class="card-title">Novo Gatilho</h3>
+            <h3 class="card-title">
+                Novo Gatilho
+
+                <span v-if="reloading" class="spinner-border spinner-border-lg" aria-hidden="true"></span>
+
+                <a href="{{url('gatilhos')}}" style="float: right;">
+                    <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
+                </a>
+            </h3>
             <span class="subtitulo">Configure um gatilho para disparar um e-mail</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
@@ -18,7 +26,7 @@
                         <label for="campanhaInput" class="form-label">Campanha</label>
                         <select 
                             v-model="form.campanha"
-                            class="form-select form-select-lg"
+                            class="form-select"
                             id="campanhaInput"
                             required
                         >
@@ -30,7 +38,7 @@
                         <label for="tagInput" class="form-label">Tag</label>
                         <select 
                             v-model="form.tag"
-                            class="form-select form-select-lg" 
+                            class="form-select" 
                             id="tagInput"
                             required
                         >
@@ -43,7 +51,7 @@
                             <label for="tipoGatilhoInput" class="form-label">Tipo de gatilho</label>
                             <select 
                                 v-model="form.tipoGatilho"
-                                class="form-select form-select-lg" 
+                                class="form-select" 
                                 id="tipoGatilhoInput" 
                                 @change="mudancaDoTipoDeGatilho"
                                 required
@@ -57,7 +65,7 @@
                             <input 
                                 v-model="form.dataGatilho"
                                 type="date" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="dataGatilhoInput"
                             />
                         </div>
@@ -67,7 +75,7 @@
                             <input 
                                 v-model="form.tempoGatilho"
                                 type="number" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="tempoGatilhoInput"
                             />
                         </div>
@@ -77,7 +85,7 @@
                             <input
                                 v-model="form.repetir"
                                 type="number" 
-                                class="form-control form-control-lg" 
+                                class="form-control" 
                                 id="repetirInput"
                             />
                         </div>
@@ -88,7 +96,7 @@
                         <input
                             v-model="form.assunto"
                             type="text" 
-                            class="form-control form-control-lg" 
+                            class="form-control" 
                             id="assuntoInput"
                             required
                         />
@@ -98,7 +106,7 @@
                         <label for="mensagem" class="form-label">Mensagem</label>
                         <textarea
                             v-model="form.mensagem"
-                            class="form-control form-control-lg" 
+                            class="form-control" 
                             id="mensagem"
                             placeholder="Escreva aqui a mensagem do e-mail..."
                             required
@@ -124,13 +132,9 @@
     </div>
     
 </div>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<script src="{{asset('js/vue3.js')}}"></script>
+<script src="{{asset('js/axios.min.js')}}"></script>
 <script src="https://cdn.tiny.cloud/1/l4z4tbu4inx01lyqjzzbybivnylb4upgyrgp8vhelykmmbz4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
-
-
 <script>
     tinymce.init({
         selector: '#mensagem', // Seleciona o textarea
@@ -169,26 +173,18 @@
             const messageSuccess = ref('')
             const disableButton = ref(false)
             const loading = ref(false)
+            const reloading = ref(false)
 
-            const getCampanhas = () => {
-                axios.get(`${baseUrl}/campanhas/list`)
-                .then(response => {
-                    campanhas.value = response.data
-                });
-            }
+            const getInfo = () => {
+                reloading.value = true
 
-            const getTags = () => {
-                axios.get(`${baseUrl}/tags/list`)
+                axios.get(`${baseUrl}/gatilho/info`)
                 .then(response => {
-                    tags.value = response.data
-                });
-            }
-
-            const getTiposGatilho = () => {
-                axios.get(`${baseUrl}/tipos-gatilho/list`)
-                .then(response => {
-                    tiposGatilho.value = response.data
-                });
+                    campanhas.value = response.data.campanhas
+                    tags.value = response.data.tags
+                    tiposGatilho.value = response.data.tiposGatilho
+                    reloading.value = false
+                })
             }
 
             const mudancaDoTipoDeGatilho = () => {
@@ -204,17 +200,6 @@
                 }
             }
 
-            // const limparFormulario = () => {
-            //     form.value.campanha = ''
-            //     form.value.tag = ''
-            //     form.value.tipoGatilho = 'IMEDIATAMENTE'
-            //     form.value.tempoGatilho = ''
-            //     form.value.dataGatilho = ''
-            //     form.value.repetir = ''
-            //     form.value.assunto = ''
-            //     form.value.mensagem = ''
-            // }
-
             const getEditorContent = () => {
                 return quill.root.innerHTML; // Captura o conteúdo do editor
             }
@@ -229,23 +214,34 @@
 
                 axios.post(`${baseUrl}/gatilho`, form.value)
                     .then(response => {
-                        messageSuccess.value = response.data.message
+                        showMessageSuccess(response.data.message)
 
-                        // limparFormulario()
+                        setTimeout(() => {
+                            window.location = `${baseUrl}/gatilho/edit/${response.data.gatilho.id}`
+                        }, 5000)
                     })
                     .catch(error => {
                         if (error.response) {
-                            // A solicitação foi feita e o servidor respondeu com um status fora do alcance de 2xx
-                            messageError.value = `${error.response.data.message}: ${error.response.data.error}`;
-                            console.log(error.response.data)
-                            // Aqui você pode tratar os erros de validação e exibir mensagens
+                            showMessageError(`${error.response.data.message}: ${error.response.data.error}`);
                         }
                     })
                     .finally(() => {
                         disableButton.value = false
-                        loading.value = false
+                        //loading.value = false
                     });
                     
+            }
+
+            const showMessageSuccess = (message) => {
+                messageSuccess.value = message
+            }
+
+            const showMessageError = (message) => {
+                messageError.value = message
+
+                setTimeout(() => {
+                    messageError.value = ''
+                }, 7000)
             }
 
             

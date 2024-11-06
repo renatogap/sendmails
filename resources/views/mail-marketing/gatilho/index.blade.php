@@ -16,69 +16,73 @@
     <div class="card mt-3">
         <div class="card-body">
             <h3 class="card-title">
-                <i class="bi bi-bullseye" style="font-size: 2rem; color: orangered;"></i>
+                <i class="bi bi-bullseye icone-orange"></i>
                 Gatilhos de envio
+
+                <a href="{{url('')}}" style="float: right;">
+                    <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
+                </a>
             </h3>
             <span class="subtitulo">Lista de gatilhos para envio de e-mails registrados</span>
             <div class="card-text mt-4">
                 
                 <a 
                     type="submit" 
-                    class="btn btn-lg botao mb-2"
+                    class="btn botao mb-2"
                     href="{{url('gatilho/create')}}"
                 >
+                    <i class="bi bi-plus"></i>
                     Novo Gatilho
                 </a>
 
-                <table class="table table-bordered table-responsive table-hover" width="100%">
-                    <thead class="table-secondary">
-                        <tr>
-                            <th valign="middle">CAMPANHAS</th>
-                            <th valign="middle">ASSUNTO DO E-MAIL</th>
-                            <th valign="middle">TIPO GATILHO</th>
-                            <th>TEMPO DE<br />ENVIO</th>
-                            <th>DATA DO<br />ENVIO</th>
-                            <th valign="middle">AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="gatilho in gatilhos">
-                            <td>
-                                <strong>@{{ gatilho.campanha.nome }}</strong>
-                                <div style="font-size: 13px; color: gray;">
-                                    <strong>Tag:</strong> @{{ gatilho.tag }}
-                                </div>
-                            </td>
-                            <td>@{{ gatilho.assunto }}</td>
-                            <td class="text-center">@{{ gatilho.tipo_disparo }}</td>
-                            <td class="text-center">@{{ gatilho.tempo_disparo }}</td>
-                            <td class="text-center">@{{ gatilho.data_disparo }}</td>
-                            <td>
-                                <a :href="`${baseUrl}/gatilho/edit/${gatilho.id}`" class="botao-acao m-3">
-                                    <i class="bi bi-pencil-square" style="font-size: 20px;"></i> 
-                                </a>
-                                <a href="#" class="botao-acao">
-                                    <i class="bi bi-trash3-fill" style="font-size: 20px;"></i>
-                                <a href="#">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsived table-hover" width="100%">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th valign="middle">CAMPANHAS</th>
+                                <th valign="middle">TAG</th>
+                                <th valign="middle">ASSUNTO DO E-MAIL</th>
+                                <th valign="middle">TIPO GATILHO</th>
+                                <th>TEMPO DE<br />ENVIO</th>
+                                <th>DATA DO<br />ENVIO</th>
+                                <th valign="middle">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="gatilho in gatilhos">
+                                <td>
+                                    <strong>@{{ gatilho.campanha.nome }}</strong>
+                                </td>
+                                <td>@{{ gatilho.tag }}</td>
+                                <td>@{{ gatilho.assunto }}</td>
+                                <td class="text-center">@{{ gatilho.tipo_disparo }}</td>
+                                <td class="text-center">@{{ gatilho.tempo_disparo }}</td>
+                                <td class="text-center" width="15%">@{{ gatilho.data_disparo }}</td>
+                                <td class="text-center" width="10%">
+                                    <a :href="`${baseUrl}/gatilho/edit/${gatilho.id}`" class="btn botao-acao">
+                                        <i class="bi bi-pencil-square icone-orange-md"></i> 
+                                    </a>
+                                    <a href="#" class="botao-acao btn">
+                                        <i class="bi bi-trash3-fill icone-orange-md"></i>
+                                    <a href="#">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     
 </div>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{asset('js/vue3.js')}}"></script>
+<script src="{{asset('js/axios.min.js')}}"></script>
 <script>
 
     const { createApp, ref, onMounted } = Vue
     
-
     createApp({
         setup() {
-
             const baseUrl = ref('<?= config('app.url') ?>')
             const gatilhos  = ref('')
 
@@ -89,14 +93,10 @@
                 });
             }
 
-
-            
-
             // Executa ao montar o componente
             onMounted(() => {
                 getGatilhos();
             })
-
 
             return {
                 gatilhos,

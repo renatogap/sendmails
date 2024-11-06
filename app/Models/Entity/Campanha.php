@@ -12,7 +12,7 @@ class Campanha extends Model
 
     protected $table = "campanha";
 
-    protected Campanha $campanha;
+    protected $fillable = ['id', 'negocio_id', 'nome', 'versao', 'dt_inicio_campanha', 'dt_termino_campanha', 'meta_captura_leads', 'meta_leads_na_live', 'status'];
 
 
     public function negocio(): HasOne

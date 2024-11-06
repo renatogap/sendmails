@@ -13,7 +13,7 @@ class GatilhoEmailTag extends Model
 
     protected $table = "gatilho_email_tag";
 
-    protected $fillable = ['campanha_id', 'tag', 'tipo_disparo', 'data_disparo', 'tempo_disparo', 'repetir', 'assunto', 'mensagem'];
+    protected $fillable = ['id', 'campanha_id', 'tag', 'tipo_disparo', 'data_disparo', 'tempo_disparo', 'repetir', 'assunto', 'mensagem'];
 
     public function campanha(): BelongsTo
     {

@@ -30,6 +30,21 @@
             background-color: darkorange; 
             color: white;
         }
+
+        .icone-orange {
+            font-size: 2rem; 
+            color: orangered;
+        }
+
+        .icone-orange-md {
+            font-size: 20px; 
+            color: orangered;
+        }
+
+        .icone-dark {
+            font-size: 2rem; 
+            color: #333333;
+        }
     </style>
 </head>
 <body>

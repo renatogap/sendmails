@@ -22,12 +22,12 @@ class GatilhoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:gatilho_email_tag,id',
+            'id' => 'exists:gatilho_email_tag,id',
             'campanha' => 'required',
             'tag' => 'required',
             'tipoGatilho' => 'required',
             'dataGatilho' => 'required_if:tipoGatilho,DATA',
-            'tempoGatilho' => 'required_unless:tipoGatilho,IMEDIATAMENTE,DATA|integer',
+            'tempoGatilho' => 'required_unless:tipoGatilho,IMEDIATAMENTE,DATA',
             'assunto' => 'required|string',
             'mensagem' => 'required|string',
         ];

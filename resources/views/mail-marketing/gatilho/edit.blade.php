@@ -8,7 +8,15 @@
 <div id="app">
     <div class="card mt-3">
         <div class="card-body">
-            <h3 class="card-title">Editar Gatilho</h3>
+            <h3 class="card-title">
+                Editar Gatilho 
+
+                <span v-if="reloading" class="spinner-border spinner-border-lg" aria-hidden="true"></span>
+
+                <a href="{{url('gatilhos')}}" style="float: right;">
+                    <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
+                </a>
+            </h3>
             <span class="subtitulo">Altere as configurações do gatilho para o envio de e-mail</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
@@ -127,21 +135,18 @@
             </div>
         </div>
     </div>
+
     
 </div>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script src="https://cdn.tiny.cloud/1/l4z4tbu4inx01lyqjzzbybivnylb4upgyrgp8vhelykmmbz4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
-
-
 <script>
     tinymce.init({
         selector: '#mensagem', // Seleciona o textarea
         plugins: 'lists link image preview',
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | link image | bullist numlist',
-        height: 400,
+        height: 300,
         setup: function(editor) {
             editor.on('change', function() {
                 editor.save(); // Salva a edição do conteúdo
@@ -175,26 +180,18 @@
             const messageSuccess = ref('')
             const disableButton = ref(false)
             const loading = ref(false)
+            const reloading = ref(false)
 
-            const getCampanhas = () => {
-                axios.get(`${baseUrl}/campanhas/list`)
-                .then(response => {
-                    campanhas.value = response.data
-                });
-            }
+            const getInfo = () => {
+                reloading.value = true
 
-            const getTags = () => {
-                axios.get(`${baseUrl}/tags/list`)
+                axios.get(`${baseUrl}/gatilho/info`)
                 .then(response => {
-                    tags.value = response.data
-                });
-            }
-
-            const getTiposGatilho = () => {
-                axios.get(`${baseUrl}/tipos-gatilho/list`)
-                .then(response => {
-                    tiposGatilho.value = response.data
-                });
+                    campanhas.value = response.data.campanhas
+                    tags.value = response.data.tags
+                    tiposGatilho.value = response.data.tiposGatilho
+                    reloading.value = false
+                })
             }
 
             const mudancaDoTipoDeGatilho = () => {
@@ -224,15 +221,11 @@
 
                 axios.put(`${baseUrl}/gatilho/${form.value.id}`, form.value)
                     .then(response => {
-                        messageSuccess.value = response.data.message
-                        console.log(response.data)
+                        showMessageSuccess(response.data.message)
                     })
                     .catch(error => {
                         if (error.response) {
-                            // A solicitação foi feita e o servidor respondeu com um status fora do alcance de 2xx
-                            messageError.value = `${error.response.data.message}: ${error.response.data.error}`;
-                            console.log(error.response.data)
-                            // Aqui você pode tratar os erros de validação e exibir mensagens
+                            showMessageError(`${error.response.data.message}: ${error.response.data.error}`)
                         }
                     })
                     .finally(() => {
@@ -242,13 +235,26 @@
                     
             }
 
+            const showMessageSuccess = (message) => {
+                messageSuccess.value = message
+
+                setTimeout(() => {
+                    messageSuccess.value = ''
+                }, 5000)
+            }
+
+            const showMessageError = (message) => {
+                messageError.value = message
+
+                setTimeout(() => {
+                    messageError.value = ''
+                }, 7000)
+            }
             
 
             // Executa ao montar o componente
             onMounted(() => {
-                getCampanhas();
-                getTags();
-                getTiposGatilho();
+                getInfo()
             })
 
 

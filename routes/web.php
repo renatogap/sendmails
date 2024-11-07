@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MailMarketin\CampanhaController;
 use App\Http\Controllers\MailMarketin\GatilhoEmailController;
+use App\Http\Controllers\MailMarketin\IndexController;
 use App\Http\Controllers\MailMarketin\TagController;
 use App\Http\Controllers\MailMarketin\TipoGatilhoController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [IndexController::class, 'index']);
 
 Route::get('campanhas', [CampanhaController::class, 'index']);
 Route::get('campanha/create', [CampanhaController::class, 'create']);
@@ -39,10 +39,11 @@ Route::get('gatilhos/search', [GatilhoEmailController::class, 'search']);
 Route::get('gatilho/info', [GatilhoEmailController::class, 'info']);
 
 Route::get('tags', [TagController::class, 'index']);
+Route::get('tags/search', [TagController::class, 'search']);
 Route::get('tag/create', [TagController::class, 'create']);
-Route::get('tag/edit/{id}', [TagController::class, 'edit']);
+Route::get('tag/edit/{tag}', [TagController::class, 'edit']);
 Route::post('tag', [TagController::class, 'store']);
-Route::put('tag', [TagController::class, 'update']);
+Route::put('tag/{tag}', [TagController::class, 'update']);
 
 #Route::get('tags/list', [TagController::class, 'getAll']);
 #Route::get('campanhas/list', [CampanhaController::class, 'index']);

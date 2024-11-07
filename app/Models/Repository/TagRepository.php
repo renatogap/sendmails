@@ -16,18 +16,18 @@ class TagRepository
         return Tag::find($id);
     }
 
-    public function create(array $data)
+    public static function create(array $data)
     {
         return Tag::create($data);
     }
 
-    public function update($id, array $data)
+    public static function update($id, array $data)
     {
         $tag = Tag::find($id);
         return $tag ? $tag->update($data) : null;
     }
 
-    public function delete($id)
+    public static function delete($id)
     {
         $tag = Tag::find($id);
         return $tag ? $tag->delete() : null;

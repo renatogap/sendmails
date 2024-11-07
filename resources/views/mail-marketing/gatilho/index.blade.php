@@ -8,7 +8,7 @@
         color: orangered;
     }
 
-    table tr td {
+    table tr td, table tr th {
         font-size: 14px;
     }
 </style>
@@ -40,12 +40,12 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th valign="middle">CAMPANHAS</th>
-                                <th valign="middle">TAG</th>
+                                <th class="text-center" valign="middle">TAG</th>
                                 <th valign="middle">ASSUNTO DO E-MAIL</th>
-                                <th valign="middle">TIPO GATILHO</th>
-                                <th>TEMPO DE<br />ENVIO</th>
-                                <th>DATA DO<br />ENVIO</th>
-                                <th valign="middle">AÇÕES</th>
+                                <th class="text-center" valign="middle">TIPO GATILHO</th>
+                                <th class="text-center" valign="middle">TEMPO DE<br />ENVIO</th>
+                                <th class="text-center" valign="middle">DATA DO<br />ENVIO</th>
+                                <th class="text-center" valign="middle">AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>

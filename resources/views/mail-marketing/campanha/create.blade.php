@@ -17,7 +17,7 @@
                     <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
                 </a>
             </h3>
-            <span class="subtitulo">Formulário para registro de uma campanha</span>
+            <span class="subtitulo">Formulário para registro de uma nova campanha</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
                     @csrf
@@ -45,22 +45,13 @@
                             required
                         />
                     </div>
-                    <div class="mb-3">
-                        <label for="versaoInput" class="form-label">Versão</label>
-                        <input 
-                            type="text"
-                            v-model="form.versao"
-                            class="form-control"
-                            id="versaoInput"
-                            required
-                        />
-                    </div>
+                    
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="dataInicioCampanha" class="form-label">Início da Campanha</label>
                             <input 
                                 v-model="form.dataInicioCampanha"
-                                type="date" 
+                                type="datetime-local" 
                                 class="form-control" 
                                 id="dataInicioCampanha"
                             />
@@ -70,7 +61,7 @@
                             <label for="dataTerminoCampanha" class="form-label">Término da Campanha</label>
                             <input 
                                 v-model="form.dataTerminoCampanha"
-                                type="date" 
+                                type="datetime-local" 
                                 class="form-control" 
                                 id="dataTerminoCampanha"
                             />
@@ -95,6 +86,19 @@
                                 type="number" 
                                 class="form-control" 
                                 id="metaLeadsLiveInput"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="versaoInput" class="form-label">Versão</label>
+                            <input 
+                                type="text"
+                                v-model="form.versao"
+                                class="form-control"
+                                id="versaoInput"
+                                required
                             />
                         </div>
                     </div>

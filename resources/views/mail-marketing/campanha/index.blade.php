@@ -8,7 +8,7 @@
         color: orangered;
     }
 
-    table tr td {
+    table tr td, table tr th {
         font-size: 14px;
     }
 </style>
@@ -40,25 +40,29 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th valign="middle">CAMPANHAS</th>
-                                <th valign="middle">VERSÃO</th>
-                                <th valign="middle">INÍCIO</th>
-                                <th valign="middle">TÉRMINO</th>
-                                <th valign="middle">META LEAD</th>
-                                <th valign="middle">META LIVE</th>
-                                <th valign="middle">AÇÕES</th>
+                                <th class="text-center" valign="middle">VERSÃO</th>
+                                <th class="text-center" valign="middle">INÍCIO</th>
+                                <th class="text-center" valign="middle">TÉRMINO</th>
+                                <th class="text-center" valign="middle">META LEAD</th>
+                                <th class="text-center" valign="middle">META LIVE</th>
+                                <th class="text-center" valign="middle">AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="campanha in campanhas">
-                                <td>
+                                <td valign="middle">
                                     <strong>@{{ campanha.nome }}</strong>
+                                    <br />
+                                    <div style="font-size: 13px; color: #333;">
+                                        <strong>Negócio: </strong> @{{ campanha.negocio.nome_metodo }}
+                                    </div>
                                 </td>
-                                <td>@{{ campanha.versao }}</td>
-                                <td>@{{ campanha.dt_inicio_campanha }}</td>
-                                <td class="text-center">@{{ campanha.dt_termino_campanha }}</td>
-                                <td class="text-center">@{{ campanha.meta_captura_leads }}</td>
-                                <td class="text-center" width="15%">@{{ campanha.meta_leads_na_live }}</td>
-                                <td class="text-center" width="10%">
+                                <td valign="middle" class="text-center">@{{ campanha.versao }}</td>
+                                <td valign="middle" class="text-center">@{{ campanha.dt_inicio_campanha }}</td>
+                                <td valign="middle" class="text-center">@{{ campanha.dt_termino_campanha }}</td>
+                                <td valign="middle" class="text-center">@{{ campanha.meta_captura_leads }}</td>
+                                <td valign="middle" class="text-center" width="15%">@{{ campanha.meta_leads_na_live }}</td>
+                                <td valign="middle" class="text-center" width="10%">
                                     <a :href="`${baseUrl}/campanha/edit/${campanha.id}`" class="btn botao-acao">
                                         <i class="bi bi-pencil-square icone-orange-md"></i> 
                                     </a>

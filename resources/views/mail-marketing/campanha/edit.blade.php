@@ -17,7 +17,7 @@
                     <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
                 </a>
             </h3>
-            <span class="subtitulo">Formulário para registro de uma campanha</span>
+            <span class="subtitulo">Formulário para editar uma campanha</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
                     @csrf
@@ -60,7 +60,7 @@
                             <label for="dataInicioCampanha" class="form-label">Início da Campanha</label>
                             <input 
                                 v-model="form.dataInicioCampanha"
-                                type="datetime" 
+                                type="datetime-local" 
                                 class="form-control" 
                                 id="dataInicioCampanha"
                             />
@@ -70,7 +70,7 @@
                             <label for="dataTerminoCampanha" class="form-label">Término da Campanha</label>
                             <input 
                                 v-model="form.dataTerminoCampanha"
-                                type="datetime" 
+                                type="datetime-local" 
                                 class="form-control" 
                                 id="dataTerminoCampanha"
                             />

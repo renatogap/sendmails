@@ -8,7 +8,7 @@ class CampanhaRepository
 {
     public static function getAll()
     {
-        return Campanha::all();
+        return Campanha::with('negocio')->get();
     }
 
     public static function find($id)

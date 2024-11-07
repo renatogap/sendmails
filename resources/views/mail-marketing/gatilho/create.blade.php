@@ -218,7 +218,7 @@
 
                         setTimeout(() => {
                             window.location = `${baseUrl}/gatilho/edit/${response.data.gatilho.id}`
-                        }, 5000)
+                        }, 4000)
                     })
                     .catch(error => {
                         if (error.response) {
@@ -226,7 +226,7 @@
                         }
                     })
                     .finally(() => {
-                        disableButton.value = false
+                        //disableButton.value = false
                         //loading.value = false
                     });
                     
@@ -248,9 +248,7 @@
 
             // Executa ao montar o componente
             onMounted(() => {
-                getCampanhas();
-                getTags();
-                getTiposGatilho();
+                getInfo();
             })
 
 
@@ -264,7 +262,8 @@
                 form,
                 mudancaDoTipoDeGatilho,
                 salvar,
-                loading
+                loading,
+                reloading
             }
         }
     }).mount('#app')

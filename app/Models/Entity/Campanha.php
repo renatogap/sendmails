@@ -4,7 +4,7 @@ namespace App\Models\Entity;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Campanha extends Model
 {
@@ -15,9 +15,9 @@ class Campanha extends Model
     protected $fillable = ['id', 'negocio_id', 'nome', 'versao', 'dt_inicio_campanha', 'dt_termino_campanha', 'meta_captura_leads', 'meta_leads_na_live', 'status'];
 
 
-    public function negocio(): HasOne
+    public function negocio(): BelongsTo
     {
-        return $this->HasOne(Negocio::class);
+        return $this->belongsTo(Negocio::class);
     }
 
     public function gatilhos()

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('negocio_id');
             $table->string('nome');
             $table->string('versao');
-            $table->date('dt_inicio_cap_lead');
             $table->dateTime('dt_inicio_campanha');
             $table->dateTime('dt_termino_campanha');
             $table->integer('meta_captura_leads');

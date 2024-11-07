@@ -129,7 +129,7 @@
                             <span v-if="loading" role="status"> Aguarde...</span>
                             <span v-if="!loading" role="status"> Salvar</span>
                         </button>
-                        <a href="{{url('gatilhos')}}" class="btn btn-lg btn-secondary m-1">Cancelar</a>
+                        <a href="{{url('gatilhos')}}" class="btn btn-lg btn-secondary m-1">Voltar</a>
                     </div>
                 </form>
             </div>

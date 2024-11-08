@@ -69,7 +69,7 @@
                             <label for="dataGatilhoInput" class="form-label">Data do envio</label>
                             <input 
                                 v-model="form.dataGatilho"
-                                type="date" 
+                                type="datetime-local" 
                                 class="form-control" 
                                 id="dataGatilhoInput"
                             />

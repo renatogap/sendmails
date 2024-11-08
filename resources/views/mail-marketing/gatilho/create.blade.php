@@ -22,32 +22,37 @@
                 <form action="" @submit.prevent="salvar">
                     @csrf
 
-                    <div class="mb-3">
-                        <label for="campanhaInput" class="form-label">Campanha</label>
-                        <select 
-                            v-model="form.campanha"
-                            class="form-select"
-                            id="campanhaInput"
-                            required
-                        >
-                            <option value="">SELECIONE...</option>
-                            <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.nome}} @{{campanha.versao}}</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tagInput" class="form-label">Tag</label>
-                        <select 
-                            v-model="form.tag"
-                            class="form-select" 
-                            id="tagInput"
-                            required
-                        >
-                            <option value="">SELECIONE...</option>
-                            <option v-for="tag in tags" :value="tag.tag">@{{tag.tag}}</option>
-                        </select>
-                    </div>
                     <div class="row">
-                        <div class="col-md-4 mb-3">
+
+                        <div class="col-md-6 mb-3">
+                            <label for="campanhaInput" class="form-label">Campanha</label>
+                            <select 
+                                v-model="form.campanha"
+                                class="form-select"
+                                id="campanhaInput"
+                                required
+                            >
+                                <option value="">SELECIONE...</option>
+                                <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.nome}} @{{campanha.versao}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tagInput" class="form-label">Tag</label>
+                            <select 
+                                v-model="form.tag"
+                                class="form-select" 
+                                id="tagInput"
+                                required
+                            >
+                                <option value="">SELECIONE...</option>
+                                <option v-for="tag in tags" :value="tag.tag">@{{tag.tag}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="tipoGatilhoInput" class="form-label">Tipo de gatilho</label>
                             <select 
                                 v-model="form.tipoGatilho"
@@ -60,7 +65,7 @@
                             </select>
                         </div>
 
-                        <div v-if="form.tipoGatilho == 'DATA'" class="col-md-4 mb-3">
+                        <div v-if="form.tipoGatilho == 'DATA'" class="col-md-6 mb-3">
                             <label for="dataGatilhoInput" class="form-label">Data do envio</label>
                             <input 
                                 v-model="form.dataGatilho"
@@ -70,7 +75,7 @@
                             />
                         </div>
 
-                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-4 mb-3">
+                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-6 mb-3">
                             <label for="tempoGatilhoInput" class="form-label">Tempo de envio</label>
                             <input 
                                 v-model="form.tempoGatilho"
@@ -79,16 +84,20 @@
                                 id="tempoGatilhoInput"
                             />
                         </div>
-                        
-                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-4 mb-3">
-                            <label for="repetirInput" class="form-label">Repetir</label>
-                            <input
-                                v-model="form.repetir"
-                                type="number" 
-                                class="form-control" 
-                                id="repetirInput"
-                            />
-                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="templateInput" class="form-label">Template</label>
+                        <select 
+                            v-model="form.template"
+                            class="form-select" 
+                            id="templateInput"
+                            @change="getTemplate"
+                            required
+                        >
+                            <option value="">SELECIONE...</option>
+                            <option v-for="template in templates" :value="template.id">@{{template.nome_template}}</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -162,6 +171,7 @@
                 tempoGatilho: '',
                 dataGatilho: '',
                 repetir: '',
+                template: '',
                 assunto: '',
                 mensagem: ''
             });
@@ -169,6 +179,7 @@
             const campanhas  = ref('')
             const tags = ref('')
             const tiposGatilho = ref('')
+            const templates  = ref('')
             const messageError = ref('')
             const messageSuccess = ref('')
             const disableButton = ref(false)
@@ -183,7 +194,19 @@
                     campanhas.value = response.data.campanhas
                     tags.value = response.data.tags
                     tiposGatilho.value = response.data.tiposGatilho
+                    templates.value = response.data.templates
                     reloading.value = false
+                })
+            }
+
+            const getTemplate = () => {
+                form.value.assunto = ''
+                form.value.mensagem = ''
+
+                axios.get(`${baseUrl}/template/${form.value.template}`)
+                .then(response => {
+                    form.value.assunto = response.data.assunto
+                    tinymce.get('mensagem').setContent(response.data.descricao)
                 })
             }
 
@@ -200,9 +223,6 @@
                 }
             }
 
-            const getEditorContent = () => {
-                return quill.root.innerHTML; // Captura o conteúdo do editor
-            }
 
             const salvar = () => {
                 loading.value = true
@@ -258,11 +278,13 @@
                 campanhas,
                 tags,
                 tiposGatilho,
+                templates,
                 messageError,
                 messageSuccess,
                 disableButton,
                 form,
                 mudancaDoTipoDeGatilho,
+                getTemplate,
                 salvar,
                 loading,
                 reloading

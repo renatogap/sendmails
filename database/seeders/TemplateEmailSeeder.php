@@ -20,7 +20,7 @@ class TemplateEmailSeeder extends Seeder
             [
                 'id' => 1,
                 'nome_template' => '1) E-MAIL DE OBRIGADO + PESQUISA',
-                'assunto' => 'Preciso da sua ajuda',
+                'assunto' => '[Programador 10x] Preciso da sua ajuda',
                 'descricao' => '<p>Fala Dev,</p>
                             <p>
                                 Aqui é o Renato Pereira, e eu estou passando para te dar os parabéns por ter realizado a sua inscrição para o <strong>PROGRAMADOR 10x</strong>.

@@ -3,6 +3,7 @@
 use App\Http\Controllers\MailMarketin\CampanhaController;
 use App\Http\Controllers\MailMarketin\GatilhoEmailController;
 use App\Http\Controllers\MailMarketin\IndexController;
+use App\Http\Controllers\MailMarketin\InscricaoController;
 use App\Http\Controllers\MailMarketin\TagController;
 use App\Http\Controllers\MailMarketin\TemplateEmailController;
 use App\Http\Controllers\MailMarketin\TipoGatilhoController;
@@ -48,6 +49,7 @@ Route::put('tag/{tag}', [TagController::class, 'update']);
 
 Route::get('templates', [TemplateEmailController::class, 'index']);
 Route::get('templates/search', [TemplateEmailController::class, 'search']);
+Route::get('template/{template}', [TemplateEmailController::class, 'getId']);
 Route::get('template/create', [TemplateEmailController::class, 'create']);
 Route::get('template/edit/{template}', [TemplateEmailController::class, 'edit']);
 Route::post('template', [TemplateEmailController::class, 'store']);
@@ -58,4 +60,4 @@ Route::put('template/{template}', [TemplateEmailController::class, 'update']);
 #Route::get('tipos-gatilho/list', [TipoGatilhoController::class, 'index']);
 
 
-Route::get('/inscricao/store', [CampanhaController::class, 'storeInscricaoLead']);
+Route::get('/inscricao/store', [InscricaoController::class, 'store']);

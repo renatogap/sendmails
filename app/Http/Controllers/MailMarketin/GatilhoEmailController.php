@@ -8,9 +8,9 @@ use App\Models\Entity\GatilhoEmailTag;
 use App\Models\Regras\GatilhoEmailTagRegras;
 use App\Models\Repository\CampanhaRepository;
 use App\Models\Repository\TagRepository;
+use App\Models\Repository\TemplateEmailRepository;
 use App\Models\Repository\TipoGatilhoRepository;
 use Exception;
-use Illuminate\Http\Request;
 
 class GatilhoEmailController extends Controller
 {
@@ -24,7 +24,8 @@ class GatilhoEmailController extends Controller
         return response()->json([
             'campanhas' => CampanhaRepository::getAll(),
             'tags' => TagRepository::getAll(),
-            'tiposGatilho' => TipoGatilhoRepository::getAll()
+            'tiposGatilho' => TipoGatilhoRepository::getAll(),
+            'templates' => TemplateEmailRepository::getAll()
         ]);
     }
 

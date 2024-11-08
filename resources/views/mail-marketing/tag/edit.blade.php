@@ -14,7 +14,7 @@
                 <span v-if="reloading" class="spinner-border spinner-border-lg" aria-hidden="true"></span>
 
                 <a href="{{url('tags')}}" style="float: right;">
-                    <i class="bi bi-tags-fill icone-dark"></i>
+                    <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
                 </a>
             </h3>
             <span class="subtitulo">Altere as configurações do gatilho para o envio de e-mail</span>

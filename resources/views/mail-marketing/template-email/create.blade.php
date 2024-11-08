@@ -9,7 +9,7 @@
     <div class="card mt-3">
         <div class="card-body">
             <h3 class="card-title">
-                Novo Template
+                Novo Template de E-mail
 
                 <span v-if="reloading" class="spinner-border spinner-border-lg" aria-hidden="true"></span>
 

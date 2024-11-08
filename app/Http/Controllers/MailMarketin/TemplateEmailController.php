@@ -16,6 +16,11 @@ class TemplateEmailController extends Controller
         return view('mail-marketing.template-email.index');
     }
 
+    public function getId(TemplateEmail $template)
+    {
+        return response()->json($template);
+    }
+
     public function search()
     {
         $templates = TemplateEmail::orderBy('id')->get();

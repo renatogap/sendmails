@@ -31,8 +31,8 @@ class TagRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => 'O id do gatilho não foi informado.',
-            'id.exists' => 'Esse id de identificação do gatilho não é válido.',
+            'id.required' => 'O id da tag não foi informado.',
+            'id.exists' => 'Esse id de identificação da tag não é válido.',
             'tag.required' => 'O campo tag é obrigatório.',
             'nome.required' => 'O campo nome é obrigatório.'
         ];

@@ -138,8 +138,8 @@
 
     
 </div>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{asset('js/vue3.js')}}"></script>
+<script src="{{asset('js/axios.min.js')}}"></script>
 <script src="https://cdn.tiny.cloud/1/l4z4tbu4inx01lyqjzzbybivnylb4upgyrgp8vhelykmmbz4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
@@ -268,7 +268,8 @@
                 form,
                 mudancaDoTipoDeGatilho,
                 salvar,
-                loading
+                loading,
+                reloading
             }
         }
     }).mount('#app')

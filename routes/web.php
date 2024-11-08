@@ -4,6 +4,7 @@ use App\Http\Controllers\MailMarketin\CampanhaController;
 use App\Http\Controllers\MailMarketin\GatilhoEmailController;
 use App\Http\Controllers\MailMarketin\IndexController;
 use App\Http\Controllers\MailMarketin\TagController;
+use App\Http\Controllers\MailMarketin\TemplateEmailController;
 use App\Http\Controllers\MailMarketin\TipoGatilhoController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,13 @@ Route::get('tag/create', [TagController::class, 'create']);
 Route::get('tag/edit/{tag}', [TagController::class, 'edit']);
 Route::post('tag', [TagController::class, 'store']);
 Route::put('tag/{tag}', [TagController::class, 'update']);
+
+Route::get('templates', [TemplateEmailController::class, 'index']);
+Route::get('templates/search', [TemplateEmailController::class, 'search']);
+Route::get('template/create', [TemplateEmailController::class, 'create']);
+Route::get('template/edit/{template}', [TemplateEmailController::class, 'edit']);
+Route::post('template', [TemplateEmailController::class, 'store']);
+Route::put('template/{template}', [TemplateEmailController::class, 'update']);
 
 #Route::get('tags/list', [TagController::class, 'getAll']);
 #Route::get('campanhas/list', [CampanhaController::class, 'index']);

@@ -9,40 +9,48 @@
     <div class="card mt-3">
         <div class="card-body">
             <h3 class="card-title">
-                Nova Tag
+                Novo Template
 
                 <span v-if="reloading" class="spinner-border spinner-border-lg" aria-hidden="true"></span>
 
-                <a href="{{url('tags')}}" style="float: right;">
+                <a href="{{url('templates')}}" style="float: right;">
                     <i class="bi bi-arrow-left-circle-fill icone-dark"></i>
                 </a>
             </h3>
-            <span class="subtitulo">Formulário de cadastro de tag</span>
+            <span class="subtitulo">Formulário para cadastro de novo template de e-mail</span>
             <div class="card-text mt-4">
                 <form action="" @submit.prevent="salvar">
                     @csrf
 
                     <div class="mb-3">
-                        <label for="nomeTagInput" class="form-label">Nome</label>
+                        <label for="nomeInput" class="form-label">Nome do template</label>
                         <input 
-                            type="text"
                             v-model="form.nome"
                             class="form-control"
-                            id="nomeTagInput"
+                            id="nomeInput"
                             required
-                        >
+                        />
                     </div>
                     <div class="mb-3">
-                        <label for="tagInput" class="form-label">Tag</label>
+                        <label for="assuntoInput" class="form-label">Assunto</label>
                         <input 
-                            type="text"
-                            v-model="form.tag"
+                            v-model="form.assunto"
                             class="form-control" 
-                            id="tagInput"
+                            id="assuntoInput"
                             required
-                        >
+                        />
                     </div>
-                    
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descricao</label>
+                        <textarea
+                            v-model="form.descricao"
+                            class="form-control" 
+                            id="descricao"
+                            placeholder="Escreva aqui a mensagem do e-mail..."
+                            required
+                        ></textarea>
+                    </div>
+
                     <div class="mt-3">
                         <div v-if="messageError" class="alert alert-danger">@{{messageError}}</div>
                         <div v-if="messageSuccess" class="alert alert-success">@{{messageSuccess}}</div>
@@ -54,7 +62,7 @@
                             <span v-if="loading" role="status"> Aguarde...</span>
                             <span v-if="!loading" role="status"> Salvar</span>
                         </button>
-                        <a href="{{url('tags')}}" class="btn btn-lg btn-secondary m-1">Cancelar</a>
+                        <a href="{{url('templates')}}" class="btn btn-lg btn-secondary m-1">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -64,7 +72,20 @@
 </div>
 <script src="{{asset('js/vue3.js')}}"></script>
 <script src="{{asset('js/axios.min.js')}}"></script>
+<script src="https://cdn.tiny.cloud/1/l4z4tbu4inx01lyqjzzbybivnylb4upgyrgp8vhelykmmbz4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
+    tinymce.init({
+        selector: '#descricao', // Seleciona o textarea
+        plugins: 'lists link image preview',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | link image | bullist numlist',
+        height: 300,
+        setup: function(editor) {
+            editor.on('change', function() {
+                editor.save(); // Salva a edição do conteúdo
+            });
+        }
+    });
+
 
     const { createApp, ref, onMounted } = Vue
     const baseUrl = '<?= config('app.url') ?>'
@@ -74,11 +95,10 @@
 
             const form = ref({
                 nome: '',
-                tag: ''
+                assunto: '',
+                descricao: ''
             });
 
-            const nome  = ref('')
-            const tags = ref('')
             const messageError = ref('')
             const messageSuccess = ref('')
             const disableButton = ref(false)
@@ -91,12 +111,14 @@
                 messageSuccess.value = ''
                 messageError.value = ''
 
-                axios.post(`${baseUrl}/tag`, form.value)
+                form.value.descricao = tinymce.get('descricao').getContent() // Captura o conteúdo do editor
+
+                axios.post(`${baseUrl}/template`, form.value)
                     .then(response => {
                         showMessageSuccess(response.data.message)
 
                         setTimeout(() => {
-                            window.location = `${baseUrl}/tag/edit/${response.data.tag.id}`
+                            window.location = `${baseUrl}/template/edit/${response.data.template.id}`
                         }, 3000)
                     })
                     .catch(error => {
@@ -125,9 +147,8 @@
                 }, 7000)
             }
 
+
             return {
-                nome,
-                tags,
                 messageError,
                 messageSuccess,
                 disableButton,

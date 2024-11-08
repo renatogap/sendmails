@@ -218,11 +218,13 @@
 
                         setTimeout(() => {
                             window.location = `${baseUrl}/gatilho/edit/${response.data.gatilho.id}`
-                        }, 4000)
+                        }, 3000)
                     })
                     .catch(error => {
                         if (error.response) {
                             showMessageError(`${error.response.data.message}: ${error.response.data.error}`);
+                            loading.value = false
+                            disableButton.value = false
                         }
                     })
                     .finally(() => {

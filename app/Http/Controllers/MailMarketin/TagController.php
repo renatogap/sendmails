@@ -17,18 +17,6 @@ class TagController extends Controller
         return view('mail-marketing.tag.index');
     }
 
-    // public function getAll()
-    // {
-    //     $tags = TagRepository::getAll();
-    //     return response()->json($tags);
-    // }
-
-    // public function info()
-    // {
-    //     $tags = TagRepository::getAll();
-    //     return response()->json($tags);
-    // }
-
     public function search()
     {
         $tags = Tag::orderBy('id')->get();
@@ -80,7 +68,7 @@ class TagController extends Controller
             ], 201);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao tentar alerar a tag de e-mail.',
+                'message' => 'Erro ao tentar alerar a tag.',
                 'error' => $e->getMessage()
             ], 500);
         }

@@ -10,4 +10,7 @@ class TemplateEmail extends Model
     use HasFactory;
 
     protected $table = "template_email";
+
+    protected $fillable = ['id', 'nome_template', 'assunto', 'descricao'];
+
 }

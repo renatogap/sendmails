@@ -86,7 +86,7 @@ class TemplateEmailSeeder extends Seeder
                 'id' => 2,
                 'nome_template' => '2) GRUPO DE WHATSAPP',
                 'assunto' => 'Tudo o que você precisa para acessar o evento',
-                'descricao' => '<p>Fala Dev</p>,
+                'descricao' => '<p>Fala Dev,</p>
                         <p>
                             Aqui é o Renato Pereira, eu vi que ontem você se inscreveu para participar do <strong>Programador 10x</strong> e que a sua inscrição já foi confirmada! 
                         </p>

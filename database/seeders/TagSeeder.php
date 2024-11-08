@@ -21,7 +21,6 @@ class TagSeeder extends Seeder
                 'id' => 1,
                 'nome' => '[LAUNCH][OBRIGADO]',
                 'tag' => 'PROG10X_LS_#1',
-                'descricao' => 'Tag de inscrição ao evento.',
                 'created_at' => date('Y-m-d H:i:s')
             ]
         ];

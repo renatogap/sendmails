@@ -11,6 +11,11 @@ class CampanhaRepository
         return Campanha::with('negocio')->get();
     }
 
+    public static function ativas()
+    {
+        return Campanha::where('status', 1)->get();
+    }
+
     public static function find($id)
     {
         return Campanha::find($id);

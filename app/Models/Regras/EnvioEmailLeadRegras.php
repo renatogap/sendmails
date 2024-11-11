@@ -5,28 +5,28 @@ namespace App\Models\Regras;
 use App\Mail\ObrigadoMail;
 use App\Models\Entity\EnvioEmailLead;
 use App\Models\Entity\GatilhoEmailTag;
+use App\Models\Entity\Lead;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 
 class EnvioEmailLeadRegras
 {
-    public static function enviarEmails()
+    /**
+     * Obtem todos os registros pendentes prontos para o envio de e-mail
+     */
+    public static function rotinaDeEnvio()
     {
         try {
-
-            // obtem os e-mails programados que ainda não foram enviados
-            $emailsPendentesVencidosProntosParaEnvio = EnvioEmailLeadRegras::emailsPendentesVencidosProntosParaEnvio();
+            $emailsPendentesVencidosProntosParaEnvio = self::emailsPendentesVencidosProntosParaEnvio();
 
             if(!$emailsPendentesVencidosProntosParaEnvio->isEmpty()) {
 
                 foreach($emailsPendentesVencidosProntosParaEnvio as $emailPendenteVencido) {
-
                     $gatilho = GatilhoEmailTag::find($emailPendenteVencido->gatilho_email_tag_id);
-
-                    EnvioEmailLeadRegras::enviarEmail($gatilho);
-
-                    EnvioEmailLeadRegras::atualizarEnvio($emailPendenteVencido);
+                    $lead = Lead::find($emailPendenteVencido->lead_id);
+                    self::enviarEmail($lead, $gatilho);
+                    self::atualizarDadosDoEnvio($emailPendenteVencido);
                 }
             }
         }
@@ -39,10 +39,10 @@ class EnvioEmailLeadRegras
         }
     }
 
-    public static function enviarEmail(GatilhoEmailTag $gatilho)
+    public static function enviarEmail(Lead $lead, GatilhoEmailTag $gatilho)
     {
         try {
-            Mail::to(env('MAIL_FROM_ADDRESS'))->send( new ObrigadoMail($gatilho));
+            Mail::to($lead->email)->send( new ObrigadoMail($gatilho));
         }
         catch(Exception $ex) {
             if(env('APP_DEBUG')) {
@@ -75,7 +75,7 @@ class EnvioEmailLeadRegras
         }
     }
 
-    public static function atualizarEnvio(EnvioEmailLead $envio)
+    public static function atualizarDadosDoEnvio(EnvioEmailLead $envio)
     {
         try {
             $envioEmailLead = EnvioEmailLead::find($envio->id);
@@ -97,6 +97,7 @@ class EnvioEmailLeadRegras
     {
         $dataCorrente = Carbon::now();
         $emailsPendentes = EnvioEmailLead::where('enviado', false)->where('data_envio', '<=', $dataCorrente->format('Y-m-d H:i:s'))->get();
+
         return $emailsPendentes;
     }
 

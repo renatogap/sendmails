@@ -55,25 +55,10 @@ class GatilhoEmailTagRegras
             if($gatilhos->isEmpty()){
                 throw new Exception('Não há nenhum gatilho configurado para a tag '.$tag->tag.'.');
             }
-                
-            $data = Carbon::now();
             
             foreach($gatilhos as $gatilho) {
-
-                if($gatilho->tipo_disparo == 'IMEDIATAMENTE') {
-                    EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $data); // salvar o envio de e-mail
-                } 
-                else if($gatilho->tipo_disparo == 'DATA') {
-                    $dataEnvioEmail = Carbon::parse($gatilho->data_disparo);
-
-                    EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $dataEnvioEmail);
-                }
-                else {
-                    $dataEnvioEmail = Carbon::parse($leadTag->created_at);
-                    $dataEnvioEmail = $dataEnvioEmail->addHour($gatilho->tempo_disparo);
-
-                    EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $dataEnvioEmail); // salvar o envio de e-mail
-                }
+                $dataEnvioEmail = GatilhoEmailTagRegras::calculaDataDeEnvio($gatilho, $leadTag->created_at);
+                EnvioEmailLeadRegras::salvar($leadTag->lead_id, $tag->tag, $gatilho->id, $dataEnvioEmail);
             }
 
         }
@@ -84,6 +69,36 @@ class GatilhoEmailTagRegras
                 throw new Exception('Erro ao enviar o gatilho de e-mail');
             }
         }
+    }
+
+
+    public static function calculaDataDeEnvio(GatilhoEmailTag $gatilho, $dataInscricao)
+    {
+        if($gatilho->tipo_disparo == 'IMEDIATAMENTE') {
+            $dataEnvioEmail = Carbon::now();
+        } 
+        else if($gatilho->tipo_disparo == 'DATA') {
+            $dataEnvioEmail = Carbon::parse($gatilho->data_disparo);
+        }
+        else if($gatilho->tipo_disparo == 'DIA(S)') {
+            $dataEnvioEmail = Carbon::parse($dataInscricao);
+            $dataEnvioEmail = $dataEnvioEmail->addDays($gatilho->tempo_disparo);
+        }
+        else if($gatilho->tipo_disparo == 'SEMANA(S)') {
+            $dataEnvioEmail = Carbon::parse($dataInscricao);
+            $tempoDisparo = ($gatilho->tempo_disparo * 7);
+            $dataEnvioEmail = $dataEnvioEmail->addDays($tempoDisparo);
+        }
+        else if($gatilho->tipo_disparo == 'HORA(S)') {
+            $dataEnvioEmail = Carbon::parse($dataInscricao);
+            $dataEnvioEmail = $dataEnvioEmail->addHour($gatilho->tempo_disparo);
+        }
+        else if($gatilho->tipo_disparo == 'SEGUNDO(S)') {
+            $dataEnvioEmail = Carbon::parse($dataInscricao);
+            $dataEnvioEmail = $dataEnvioEmail->addSeconds($gatilho->tempo_disparo);
+        }
+
+        return $dataEnvioEmail;
     }
 
 }

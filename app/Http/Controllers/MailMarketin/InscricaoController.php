@@ -16,34 +16,27 @@ use Illuminate\Http\Request;
 class InscricaoController extends Controller
 {
     public function store(Request $request)
-    {
-        $campanhaId = 1;
-        $emailInscricao = 'renato.19gp@gmail.com';
-        $tagInscricao = 'PROG10X_LS_#1';
-        $concordo = 1;
-
-        #EnvioEmailLeadRegras::agenda();
-
-        /*
+    {   
         $campanhaId = $request->campanha;
+        $tagInscricao = $request->tag;
         $emailInscricao = $request->email;
-        $concordo = $request->concordoTermo;
-        */
+        $concordo = $request->concordo;
+        
 
         // verifica se o lead já se inscreveu no evento
         $isInscrito = Lead::where('campanha_id', $campanhaId)->where('email', $emailInscricao)->first();
 
-        $tag = Tag::where('tag', $tagInscricao)->first();
-
         // bloqueia a tentativa de inscrição duplicada
         if($isInscrito) {
             
-            EnvioEmailLeadRegras::enviarEmails();
+            //EnvioEmailLeadRegras::watchEmailsPendentes();
 
-            return response()->json(['message' => 'Ops, você já se inscreveu para este evento, te espero lá!']);
+            return response()->json(['error' => 'Fala Dev! Você já se inscreveu para esse evento, te espero lá!'], 401);
         }
 
         try {
+            $tag = Tag::where('tag', $tagInscricao)->first();
+
             $lead = LeadRegras::salvar($campanhaId, $emailInscricao, $concordo);
 
             $leadTag = LeadTagRegras::salvar($tag, $lead);
@@ -53,13 +46,13 @@ class InscricaoController extends Controller
                 
                 // registra os dados na tabela EnvioEmailLead p/ preparar para o(s) envio(s)
                 GatilhoEmailTagRegras::disparar($campanhaId, $tag, $leadTag);
-
+                
                 // chamar o envio de e-mail para verificar os e-mails pendentes que já podem ser enviados
-                EnvioEmailLeadRegras::enviarEmails();
+                //EnvioEmailLeadRegras::watchEmailsPendentes();
                 
             }
 
-            dd('Redirecionando para a tela de obrigado...');
+            return response()->json(['message' => 'Tudo Ok!'], 200);
 
             //return redirect('Obrigado');
         }

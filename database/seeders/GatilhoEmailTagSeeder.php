@@ -83,7 +83,7 @@ class GatilhoEmailTagSeeder extends Seeder
                             </p>',
                             
                 'tipo_disparo' => 'IMEDIATAMENTE',
-                'tempo_disparo' => 0,
+                'tempo_disparo' => null,
                 'data_disparo' => null,
                 'repetir' => 0,
                 'created_at' => date('Y-m-d H:i:s')

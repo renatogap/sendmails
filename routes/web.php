@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MailMarketin\CampanhaController;
+use App\Http\Controllers\MailMarketin\EnvioEmailController;
 use App\Http\Controllers\MailMarketin\GatilhoEmailController;
 use App\Http\Controllers\MailMarketin\IndexController;
 use App\Http\Controllers\MailMarketin\InscricaoController;
@@ -60,4 +61,6 @@ Route::put('template/{template}', [TemplateEmailController::class, 'update']);
 #Route::get('tipos-gatilho/list', [TipoGatilhoController::class, 'index']);
 
 
-Route::get('/inscricao/store', [InscricaoController::class, 'store']);
+Route::post('/inscricao/store', [InscricaoController::class, 'store']);
+
+Route::get('/envio-email/watch', [EnvioEmailController::class, 'watch']);

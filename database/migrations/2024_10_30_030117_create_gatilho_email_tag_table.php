@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('gatilho_email_tag', function (Blueprint $table) {
             $table->id();
+            $table->string('nome', 180);
             $table->unsignedBigInteger('campanha_id');
             $table->string('tag', 100);
             $table->string('assunto', 100);
@@ -20,7 +21,6 @@ return new class extends Migration
             $table->string('tipo_disparo', 15)->nullable()->text('IMEDIATAMENTE | DATA | DIA(S) | HORA(S) | MINUTO(S) | SEGUNDO(S) | MES(ES)');
             $table->integer('tempo_disparo')->nullable()->text('Disparar e-mail de acordo com o tipo e tempo de disparo. Ex: 1 dia, 1 hora, 1 mês, etc...'); 
             $table->timestamp('data_disparo')->nullable()->text('Disparar e-mail nesta data'); 
-            $table->integer('repetir')->nullable()->text('Repetir o tempo de disparo por quantas vezes? Se o campo data_disparo for preenchido, este campo será NULL.');
             $table->foreign('campanha_id')->references('id')->on('campanha');
             $table->timestamps();
         });

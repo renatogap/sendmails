@@ -23,9 +23,20 @@
                     @method('PUT')
                     @csrf
 
+                    <div class="col-md-12 mb-3">
+                        <label for="nomeInput" class="form-label">Descrição do gatilho</label>
+                        <input 
+                            v-model="form.nome"
+                            type="text" 
+                            class="form-control" 
+                            id="nomeInput"
+                            required
+                        />
+                    </div>
+
                     <div class="row">
 
-                        <div class="col-md-8 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="campanhaInput" class="form-label">Campanha</label>
                             <select 
                                 v-model="form.campanha"
@@ -37,7 +48,7 @@
                                 <option v-for="campanha in campanhas" :value="campanha.id">@{{campanha.nome}} @{{campanha.versao}}</option>
                             </select>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="tagInput" class="form-label">Tag</label>
                             <select 
                                 v-model="form.tag"
@@ -52,7 +63,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="tipoGatilhoInput" class="form-label">Tipo de gatilho</label>
                             <select 
                                 v-model="form.tipoGatilho"
@@ -65,7 +76,7 @@
                             </select>
                         </div>
 
-                        <div v-if="form.tipoGatilho == 'DATA'" class="col-md-4 mb-3">
+                        <div v-if="form.tipoGatilho == 'DATA'" class="col-md-6 mb-3">
                             <label for="dataGatilhoInput" class="form-label">Data do envio</label>
                             <input 
                                 v-model="form.dataGatilho"
@@ -75,23 +86,13 @@
                             />
                         </div>
 
-                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-4 mb-3">
+                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-6 mb-3">
                             <label for="tempoGatilhoInput" class="form-label">Tempo de envio</label>
                             <input 
                                 v-model="form.tempoGatilho"
                                 type="number" 
                                 class="form-control" 
                                 id="tempoGatilhoInput"
-                            />
-                        </div>
-                        
-                        <div v-if="form.tipoGatilho != 'IMEDIATAMENTE' && form.tipoGatilho != 'DATA'" class="col-6 col-md-4 mb-3">
-                            <label for="repetirInput" class="form-label">Repetir</label>
-                            <input
-                                v-model="form.repetir"
-                                type="number" 
-                                class="form-control" 
-                                id="repetirInput"
                             />
                         </div>
                     </div>
@@ -163,12 +164,12 @@
 
             const form = ref({
                 id: '{{ $gatilho->id }}',
+                nome: '{{ $gatilho->nome }}',
                 campanha: '{{ $gatilho->campanha_id }}',
                 tag: '{{ $gatilho->tag }}',
                 tipoGatilho: '{{ $gatilho->tipo_disparo }}',
                 tempoGatilho: '{{ $gatilho->tempo_disparo }}',
                 dataGatilho: '{{ $gatilho->data_disparo }}',
-                repetir: '{{ $gatilho->repetir }}',
                 assunto: '{{ $gatilho->assunto }}',
                 mensagem: `{!! $gatilho->mensagem !!}`,
             });

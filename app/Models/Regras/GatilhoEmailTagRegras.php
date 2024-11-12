@@ -13,6 +13,7 @@ class GatilhoEmailTagRegras
     public static function salvar($dados)
     {
         return GatilhoEmailTag::create([
+            'nome' => $dados->nome,
             'campanha_id' => $dados->campanha,
             'tag' => $dados->tag,
             'tipo_disparo' => $dados->tipoGatilho,
@@ -27,6 +28,7 @@ class GatilhoEmailTagRegras
     public static function alterar(Object $dados, GatilhoEmailTag $gatilho)
     {
         return $gatilho->update([
+            'nome' => $dados->nome,
             'campanha_id' => $dados->campanha,
             'tag' => $dados->tag,
             'tipo_disparo' => $dados->tipoGatilho,

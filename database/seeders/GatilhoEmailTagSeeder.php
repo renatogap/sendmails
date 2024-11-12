@@ -19,6 +19,7 @@ class GatilhoEmailTagSeeder extends Seeder
         $gatilhos = [
             [
                 'id' => 1,
+                'nome' => 'INSCRIÇÃO',
                 'campanha_id' => 1,
                 'tag' => 'PROG10X_LS_#1',
                 'assunto' => 'Preciso da sua ajuda',
@@ -85,11 +86,11 @@ class GatilhoEmailTagSeeder extends Seeder
                 'tipo_disparo' => 'IMEDIATAMENTE',
                 'tempo_disparo' => null,
                 'data_disparo' => null,
-                'repetir' => 0,
                 'created_at' => date('Y-m-d H:i:s')
             ],
             [
                 'id' => 2,
+                'nome' => 'GRUPO DE WHATSAPP',
                 'campanha_id' => 1,
                 'tag' => 'PROG10X_LS_#1',
                 'assunto' => 'Tudo o que você precisa para acessar o evento',
@@ -128,11 +129,11 @@ class GatilhoEmailTagSeeder extends Seeder
                 'tipo_disparo' => 'HORA(S)',
                 'tempo_disparo' => 24,
                 'data_disparo' => null,
-                'repetir' => 0,
                 'created_at' => date('Y-m-d H:i:s')
             ],
             [
                 'id' => 3,
+                'nome' => 'FALTAM 7 DIAS',
                 'campanha_id' => 1,
                 'tag' => 'PROG10X_LS_#1',
                 'assunto' => '[Programador 10x] Faltam 7 dias',
@@ -175,11 +176,11 @@ class GatilhoEmailTagSeeder extends Seeder
                 'tipo_disparo' => 'DATA',
                 'tempo_disparo' => null,
                 'data_disparo' => '2024-11-02 02:24:00',
-                'repetir' => 0,
                 'created_at' => date('Y-m-d H:i:s')
             ],
             [
                 'id' => 4,
+                'nome' => 'FALTAM 4 DIAS',
                 'campanha_id' => 1,
                 'tag' => 'PROG10X_LS_#1',
                 'assunto' => '[Programador 10x] O acesso está liberado',
@@ -204,7 +205,22 @@ class GatilhoEmailTagSeeder extends Seeder
                 'tipo_disparo' => 'DATA',
                 'tempo_disparo' => null,
                 'data_disparo' => '2024-11-02 02:25:00',
-                'repetir' => 0,
+                'created_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 5,
+                'nome' => 'WEBNÁRIO - ESTAMOS AO VIVO',
+                'campanha_id' => 1,
+                'tag' => 'PROG10X_LS_#1',
+                'assunto' => '[Programador 10x] WEBNÁRIO - ESTAMOS AO VIVO',
+                'mensagem' => '<p>Fala Dev,</p>
+                        <p>
+                            Estamos ao vivo. Não perde tempo e clica no link abaixo para entrar na live.
+                        </p>
+',
+                'tipo_disparo' => 'DATA',
+                'tempo_disparo' => null,
+                'data_disparo' => '2024-11-12 07:25:00',
                 'created_at' => date('Y-m-d H:i:s')
             ]
         ];

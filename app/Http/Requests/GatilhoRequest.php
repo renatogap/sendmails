@@ -23,6 +23,7 @@ class GatilhoRequest extends FormRequest
     {
         return [
             'id' => 'exists:gatilho_email_tag,id',
+            'nome' => 'required',
             'campanha' => 'required',
             'tag' => 'required',
             'tipoGatilho' => 'required',

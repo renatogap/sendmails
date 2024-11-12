@@ -40,25 +40,35 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th valign="middle">CAMPANHAS</th>
+                                <th class="text-center" valign="middle">DESCRIÇÃO</th>
                                 <th class="text-center" valign="middle">TAG</th>
-                                <th valign="middle">ASSUNTO DO E-MAIL</th>
+                                <!-- <th valign="middle">ASSUNTO DO E-MAIL</th> -->
                                 <th class="text-center" valign="middle">TIPO GATILHO</th>
-                                <th class="text-center" valign="middle">TEMPO DE<br />ENVIO</th>
-                                <th class="text-center" valign="middle">DATA DO<br />ENVIO</th>
+                                <!-- <th class="text-center" valign="middle">TEMPO DE<br />ENVIO</th> -->
+                                <!-- <th class="text-center" valign="middle">DATA DO<br />ENVIO</th> -->
                                 <th class="text-center" valign="middle">AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="gatilho in gatilhos">
-                                <td>
+                                <td valign="middle">
                                     <strong>@{{ gatilho.campanha.nome }}</strong>
                                 </td>
-                                <td>@{{ gatilho.tag }}</td>
-                                <td>@{{ gatilho.assunto }}</td>
-                                <td class="text-center">@{{ gatilho.tipo_disparo }}</td>
-                                <td class="text-center">@{{ gatilho.tempo_disparo }}</td>
-                                <td class="text-center" width="15%">@{{ gatilho.data_disparo }}</td>
-                                <td class="text-center" width="10%">
+                                <td class="text-center" valign="middle">@{{ gatilho.nome }}</td>
+                                <td class="text-center" valign="middle">@{{ gatilho.tag }}</td>
+                                <!-- <td>@{{ gatilho.assunto }}</td> -->
+                                <td class="text-center" valign="middle">
+                                    <b>@{{ gatilho.tipo_disparo }}</b>
+                                    <br>
+                                    <div v-if="gatilho.data_disparo">@{{ gatilho.data_disparo }}</div>
+                                    <div v-if="gatilho.tempo_disparo">
+                                        @{{ gatilho.tempo_disparo }}<span>@{{ tipoDeGatilho(gatilho.tipo_disparo) }}</span>
+                                    </div>
+                                    
+                                </td>
+                                <!-- <td class="text-center" valign="middle">@{{ gatilho.tempo_disparo }}</td> -->
+                                <!-- <td class="text-center" valign="middle" width="15%">@{{ gatilho.data_disparo }}</td> -->
+                                <td class="text-center" valign="middle" width="10%">
                                     <a :href="`${baseUrl}/gatilho/edit/${gatilho.id}`" class="btn botao-acao">
                                         <i class="bi bi-pencil-square icone-orange-md"></i> 
                                     </a>
@@ -79,7 +89,7 @@
 <script src="{{asset('js/axios.min.js')}}"></script>
 <script>
 
-    const { createApp, ref, onMounted } = Vue
+    const { createApp, ref, onMounted, computed } = Vue
     
     createApp({
         setup() {
@@ -98,8 +108,15 @@
                 getGatilhos();
             })
 
+            const tipoDeGatilho = computed(() => {
+                return (value) => {
+                    return value == 'HORA(S)' ? 'h após' : value == 'MINUTO(S)' ? ' minuto(s) após' : value == 'SEMANA(S)' ? ' semana(s) após' : ''
+                }
+            })
+
             return {
                 gatilhos,
+                tipoDeGatilho,
                 baseUrl
             }
         }

@@ -22,6 +22,17 @@
                 <form action="" @submit.prevent="salvar">
                     @csrf
 
+                    <div class="col-md-12 mb-3">
+                        <label for="nomeInput" class="form-label">Descrição do gatilho</label>
+                        <input 
+                            v-model="form.nome"
+                            type="text" 
+                            class="form-control" 
+                            id="nomeInput"
+                            required
+                        />
+                    </div>
+
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
@@ -93,7 +104,6 @@
                             class="form-select" 
                             id="templateInput"
                             @change="getTemplate"
-                            required
                         >
                             <option value="">SELECIONE...</option>
                             <option v-for="template in templates" :value="template.id">@{{template.nome_template}}</option>
@@ -165,6 +175,7 @@
         setup() {
 
             const form = ref({
+                nome: '',
                 campanha: '',
                 tag: '',
                 tipoGatilho: 'IMEDIATAMENTE',

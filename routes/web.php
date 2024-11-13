@@ -5,6 +5,7 @@ use App\Http\Controllers\MailMarketin\EnvioEmailController;
 use App\Http\Controllers\MailMarketin\GatilhoEmailController;
 use App\Http\Controllers\MailMarketin\IndexController;
 use App\Http\Controllers\MailMarketin\InscricaoController;
+use App\Http\Controllers\MailMarketin\LeadController;
 use App\Http\Controllers\MailMarketin\TagController;
 use App\Http\Controllers\MailMarketin\TemplateEmailController;
 use App\Http\Controllers\MailMarketin\TipoGatilhoController;
@@ -56,11 +57,15 @@ Route::get('template/edit/{template}', [TemplateEmailController::class, 'edit'])
 Route::post('template', [TemplateEmailController::class, 'store']);
 Route::put('template/{template}', [TemplateEmailController::class, 'update']);
 
+Route::get('leads', [LeadController::class, 'index']);
+Route::get('leads/search', [LeadController::class, 'search']);
+
+
+Route::get('envios', [EnvioEmailController::class, 'index']);
+Route::get('envios/search', [EnvioEmailController::class, 'search']);
+
 #Route::get('tags/list', [TagController::class, 'getAll']);
 #Route::get('campanhas/list', [CampanhaController::class, 'index']);
 #Route::get('tipos-gatilho/list', [TipoGatilhoController::class, 'index']);
 
 
-Route::post('/inscricao/store', [InscricaoController::class, 'store']);
-
-Route::get('/envio-email/watch', [EnvioEmailController::class, 'watch']);

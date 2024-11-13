@@ -7,7 +7,7 @@ use Exception;
 
 class LeadRegras
 {
-    public static function salvar($campanha, $email, $concordo)
+    public static function salvar($campanha, $email, $concordo, $nome = null, $telefone = null)
     {
         try {
             $lead = new Lead();
@@ -15,6 +15,15 @@ class LeadRegras
             $lead->email = $email;
             $lead->concordo_termos = $concordo;
             $lead->status = 1;
+
+            if(!empty($nome)) {
+                $lead->nome = $nome;
+            }
+
+            if(!empty($telefone)) {
+                $lead->telefone = $telefone;
+            }
+
             $lead->save();
 
             return $lead;

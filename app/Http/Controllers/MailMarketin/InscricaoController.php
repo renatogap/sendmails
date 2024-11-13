@@ -15,12 +15,14 @@ use Illuminate\Http\Request;
 
 class InscricaoController extends Controller
 {
-    public function store(Request $request)
+    public function store()
     {   
-        $campanhaId = $request->campanha;
-        $tagInscricao = $request->tag;
-        $emailInscricao = $request->email;
-        $concordo = $request->concordo;
+        $campanhaId = request()->input('campanha');
+        $tagInscricao = request()->input('tag');
+        $emailInscricao = request()->input('email');
+        $concordo = request()->input('concordo');
+        $nome = request()->input('nome', null);
+        $telefone = request()->input('telefone', null);
         
 
         // verifica se o lead já se inscreveu no evento
@@ -37,7 +39,7 @@ class InscricaoController extends Controller
         try {
             $tag = Tag::where('tag', $tagInscricao)->first();
 
-            $lead = LeadRegras::salvar($campanhaId, $emailInscricao, $concordo);
+            $lead = LeadRegras::salvar($campanhaId, $emailInscricao, $concordo, $nome, $telefone);
 
             $leadTag = LeadTagRegras::salvar($tag, $lead);
 

@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             TemplateEmailSeeder::class,
             GatilhoEmailTagSeeder::class,
             TipoGatilhoSeeder::class,
-            LeadSeeder::class,
-            LeadTagSeeder::class
+            //LeadSeeder::class,
+            //LeadTagSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
 

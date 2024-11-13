@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TagRequest;
 use App\Models\Entity\Tag;
 use App\Models\Regras\TagRegras;
-use App\Models\Repository\TagRepository;
 use Exception;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
